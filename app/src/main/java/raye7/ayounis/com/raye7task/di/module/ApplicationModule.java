@@ -3,8 +3,14 @@ package raye7.ayounis.com.raye7task.di.module;
 import android.app.Application;
 import android.content.Context;
 
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
+import raye7.ayounis.com.raye7task.data.AppDataManager;
+import raye7.ayounis.com.raye7task.data.DataManager;
+import raye7.ayounis.com.raye7task.data.remote.ApiHelper;
+import raye7.ayounis.com.raye7task.data.remote.AppApiHelper;
 import raye7.ayounis.com.raye7task.di.ApplicationContext;
 
 /**
@@ -25,4 +31,13 @@ public class ApplicationModule {
     Application provideApplication(){return mApplication;}
 
 
+    @Provides
+    @Singleton
+    DataManager provideDataManager(AppDataManager appDataManager){return appDataManager;}
+
+    @Provides
+    @Singleton
+    ApiHelper provideApiHelper(AppApiHelper appApiHelper){
+        return appApiHelper;
+    }
 }

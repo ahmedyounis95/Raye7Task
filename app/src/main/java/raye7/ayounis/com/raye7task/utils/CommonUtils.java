@@ -10,6 +10,7 @@ import android.provider.Settings;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -70,7 +71,24 @@ public final class CommonUtils {
         return new String(buffer, "UTF-8");
     }
 
-    public static String getTimeStamp() {
-        return new SimpleDateFormat(AppConstants.TIMESTAMP_FORMAT, Locale.US).format(new Date());
+    public static String getDate(String date){
+        String timeString = "";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss",Locale.ENGLISH) ;
+
+
+        try {
+            Date dt = simpleDateFormat.parse(date);
+
+
+            SimpleDateFormat outPutFormatter = new SimpleDateFormat("HH:mm a" , Locale.ENGLISH) ;
+            timeString = outPutFormatter.format(dt) ;
+
+
+
+        } catch (ParseException e) {
+
+            e.printStackTrace();
+        }
+        return timeString;
     }
 }

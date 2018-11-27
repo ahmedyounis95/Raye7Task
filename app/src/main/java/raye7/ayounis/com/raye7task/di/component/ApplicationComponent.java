@@ -7,6 +7,7 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 import raye7.ayounis.com.raye7task.Raye7App;
+import raye7.ayounis.com.raye7task.data.DataManager;
 import raye7.ayounis.com.raye7task.di.ApplicationContext;
 import raye7.ayounis.com.raye7task.di.module.ApplicationModule;
 import raye7.ayounis.com.raye7task.di.module.NetModule;
@@ -27,5 +28,8 @@ public interface ApplicationComponent {
     Retrofit getRetrofit();
 
     Application application();
+
+    DataManager getDataManager();
+
 
 }
