@@ -3,12 +3,14 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
+    android:layout_gravity="center"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    >
 
     <TextView
         android:id="@+id/no_news_txt"
-        android:textSize="22sp"
+        android:textSize="@dimen/xxl_text_size"
         android:text="@string/no_news_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

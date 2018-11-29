@@ -2,4 +2,8 @@
     <string name="app_name">Raye7Task</string>
     <string name="no_news_txt">No news to show!!</string>
     <string name="published_in">Published in</string>
+    <string name="favorite">Favorite</string>
+    <string name="title">Raye7Task</string>
+    <string name="news">News</string>
+    <string name="favorites">Favorites</string>
 </resources>

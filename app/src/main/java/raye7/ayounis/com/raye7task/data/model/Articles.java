@@ -1,35 +1,57 @@
 
 package raye7.ayounis.com.raye7task.data.model;
 
-import com.google.gson.annotations.Expose;
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
+
 import com.google.gson.annotations.SerializedName;
 
-public class Article {
+import raye7.ayounis.com.raye7task.utils.AppConstants;
 
+@Entity(tableName = AppConstants.ARTICLES_TABLE_NAME)
+
+public class Articles {
+    @PrimaryKey(autoGenerate =  true)
+    @NonNull
+    int id;
     @SerializedName("source")
-    @Expose
+    @Ignore
     private Source source;
     @SerializedName("author")
-    @Expose
+    @ColumnInfo(name = "author")
     private String author;
     @SerializedName("title")
-    @Expose
+    @ColumnInfo(name = "title")
     private String title;
     @SerializedName("description")
-    @Expose
+    @ColumnInfo(name = "description")
     private String description;
     @SerializedName("url")
-    @Expose
+    @ColumnInfo(name = "url")
     private String url;
     @SerializedName("urlToImage")
-    @Expose
+    @ColumnInfo(name = "urlToImage")
     private String urlToImage;
     @SerializedName("publishedAt")
-    @Expose
+    @ColumnInfo(name = "publishedAt")
     private String publishedAt;
     @SerializedName("content")
-    @Expose
+    @ColumnInfo(name = "content")
     private String content;
+    @ColumnInfo(name = "checked")
+    private boolean checked;
+
+    @NonNull
+    public int getId() {
+        return id;
+    }
+
+    public void setId(@NonNull int id) {
+        this.id = id;
+    }
 
     public Source getSource() {
         return source;
@@ -95,4 +117,11 @@ public class Article {
         this.content = content;
     }
 
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
+    }
 }

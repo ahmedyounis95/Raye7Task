@@ -14,7 +14,7 @@ public final class AppConstants {
     public final static String BASE_URLS = "https://newsapi.org/" ;
 
     public static final String DB_NAME = "raye7.db";
-    public static final String ARTICLES_TABLE_NAME= "articles";
+    public static final String ARTICLES_TABLE_NAME = "article";
 
     public static final String PREF_NAME = "raye7_pref";
 

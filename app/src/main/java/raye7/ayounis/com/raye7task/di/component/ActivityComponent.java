@@ -3,7 +3,9 @@ package raye7.ayounis.com.raye7task.di.component;
 import dagger.Component;
 import raye7.ayounis.com.raye7task.di.PerActivity;
 import raye7.ayounis.com.raye7task.di.module.ActivityModule;
-import raye7.ayounis.com.raye7task.ui.main.MainActivity;
+import raye7.ayounis.com.raye7task.ui.feed.FeedActivity;
+import raye7.ayounis.com.raye7task.ui.feed.favorites.FavoritesFragment;
+import raye7.ayounis.com.raye7task.ui.feed.news.NewsFragment;
 
 /**
  * Created by Ahmed Younis on 11/26/2018.
@@ -13,7 +15,11 @@ import raye7.ayounis.com.raye7task.ui.main.MainActivity;
 public interface ActivityComponent  {
 
 
-    void inject(MainActivity mainActivity);
+    void inject(FeedActivity activity);
+
+    void inject(NewsFragment fragment);
+
+    void inject(FavoritesFragment fragment);
 
 
 }

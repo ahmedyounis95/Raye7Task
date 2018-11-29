@@ -1,4 +1,4 @@
-package raye7.ayounis.com.raye7task.ui.main;
+package raye7.ayounis.com.raye7task.ui.feed.favorites;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -10,39 +10,44 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import raye7.ayounis.com.raye7task.R;
-import raye7.ayounis.com.raye7task.data.model.Article;
+import raye7.ayounis.com.raye7task.data.model.Articles;
 import raye7.ayounis.com.raye7task.ui.base.BaseViewHolder;
 import raye7.ayounis.com.raye7task.utils.CommonUtils;
+
 /**
  * Created by Ahmed Younis on 11/27/2018.
  */
-public class ArticleListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
+public class FavoritesListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
+
 
     public static final int VIEW_TYPE_EMPTY = 0;
     public static final int VIEW_TYPE_NORMAL = 1;
     private Callback mOnItemClickListener;
 
 
-    private List<Article> mArticleResponseList;
+    private List<Articles> mArticlesResponseList;
+    private List<Articles> favoritesArticlesList = new ArrayList<>();
 
-    public ArticleListAdapter(List<Article> mArticleResponseList) {
-        this.mArticleResponseList = mArticleResponseList;
+    public FavoritesListAdapter(List<Articles> mArticlesResponseList) {
+        this.mArticlesResponseList = mArticlesResponseList;
     }
 
     public void setClickListener(Callback itemClickListener) {
         this.mOnItemClickListener= itemClickListener;
     }
+
     @NonNull
     @Override
     public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         switch (viewType) {
             case VIEW_TYPE_NORMAL:
-                return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_article_list, parent, false));
+                return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_favorite_list, parent, false));
             case VIEW_TYPE_EMPTY:
                 return new EmptyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_empty_view, parent, false));
             default:
@@ -53,24 +58,27 @@ public class ArticleListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
         holder.onBind(position);
+
+
+
     }
 
     @Override
     public int getItemCount() {
-        if(mArticleResponseList != null && mArticleResponseList.size() > 0){
-            return mArticleResponseList.size();
+        if(mArticlesResponseList != null && mArticlesResponseList.size() > 0){
+            return mArticlesResponseList.size();
         }else{
             return 1;
         }
     }
     // convenience method for getting data at click position
-    public Article getItem(int id) {
-        return mArticleResponseList.get(id);
+    public Articles getItem(int id) {
+        return mArticlesResponseList.get(id);
     }
 
     @Override
     public int getItemViewType(int position) {
-        if(mArticleResponseList != null && mArticleResponseList.size() > 0)
+        if(mArticlesResponseList != null && mArticlesResponseList.size() > 0)
         {
             return VIEW_TYPE_NORMAL;
         }else{
@@ -78,26 +86,21 @@ public class ArticleListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         }
     }
 
-    @Override
-    public long getItemId(int position) {
-        return super.getItemId(position);
-    }
-
-    public void addItems(List<Article> articleList)
+    public void addItems(List<Articles> articlesList)
     {
-        mArticleResponseList.addAll(articleList);
+        mArticlesResponseList.addAll(articlesList);
         notifyDataSetChanged();
     }
     public interface Callback {
         void onArticleListClick(int position);
     }
 
-    public class ViewHolder extends BaseViewHolder {
+    public class ViewHolder extends BaseViewHolder{
 
         @BindView(R.id.article_text)
-        TextView companyTitleTxt;
+        TextView newsTitleTxt;
         @BindView(R.id.article_image)
-        ImageView companyImg;
+        ImageView newsImg;
         @BindView(R.id.txt_date)
         TextView dateTxt;
         @BindView(R.id.divider)
@@ -109,25 +112,29 @@ public class ArticleListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         }
 
         @Override
-        public void onBind(int position) {
+        public void onBind(final int position) {
             super.onBind(position);
 
-            final Article articleList = mArticleResponseList.get(position);
-            if(articleList.getUrlToImage()!= null)
+            final Articles articlesList = mArticlesResponseList.get(position);
+            if(articlesList.getUrlToImage()!= null)
             {
                 Glide.with(itemView.getContext())
-                        .load(articleList.getUrlToImage())
+                        .load(articlesList.getUrlToImage())
                         .asBitmap()
-                        .into(companyImg);
+                        .placeholder(R.drawable.ic_launcher_background)
+                        .error(R.drawable.ic_launcher_background)
+                        .into(newsImg);
             }
-            if(articleList.getDescription() != null)
+
+            if(articlesList.getDescription() != null)
             {
-                companyTitleTxt.setText(articleList.getDescription());
+                newsTitleTxt.setText(articlesList.getDescription());
             }
-            if(articleList.getPublishedAt() != null)
+            if(articlesList.getPublishedAt() != null)
             {
-                dateTxt.setText(CommonUtils.getDate(articleList.getPublishedAt()));
+                dateTxt.setText(CommonUtils.getDate(articlesList.getPublishedAt()));
             }
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -141,20 +148,22 @@ public class ArticleListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
         @Override
         protected void clear() {
-            companyImg.setImageDrawable(null);
-            companyTitleTxt.setText("");
+            newsImg.setImageDrawable(null);
+            newsTitleTxt.setText("");
         }
 
     }
 
+
     public class EmptyViewHolder extends BaseViewHolder {
 
         @BindView(R.id.no_news_txt)
-        TextView noInternetConnectionTxt;
+        TextView noNewsToShowTxt;
 
         public EmptyViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            noNewsToShowTxt.setText("You don't have any favorites!");
         }
 
         @Override
