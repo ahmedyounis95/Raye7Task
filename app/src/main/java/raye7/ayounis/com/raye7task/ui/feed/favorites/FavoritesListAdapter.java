@@ -32,7 +32,6 @@ public class FavoritesListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
 
     private List<Articles> mArticlesResponseList;
-    private List<Articles> favoritesArticlesList = new ArrayList<>();
 
     public FavoritesListAdapter(List<Articles> mArticlesResponseList) {
         this.mArticlesResponseList = mArticlesResponseList;
@@ -84,6 +83,11 @@ public class FavoritesListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         }else{
             return VIEW_TYPE_EMPTY;
         }
+    }
+    public void clearItems()
+    {
+        mArticlesResponseList.clear();
+        notifyDataSetChanged();
     }
 
     public void addItems(List<Articles> articlesList)

@@ -1,23 +1,9 @@
-/*
- * Copyright (C) 2017 MINDORKS NEXTGEN PRIVATE LIMITED
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     https://mindorks.com/license/apache-v2
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License
- */
-
 package raye7.ayounis.com.raye7task.ui.feed.favorites;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -38,9 +24,6 @@ import raye7.ayounis.com.raye7task.data.model.Articles;
 import raye7.ayounis.com.raye7task.di.component.ActivityComponent;
 import raye7.ayounis.com.raye7task.ui.base.BaseFragment;
 
-/**
- * Created by janisharali on 25/05/17.
- */
 
 public class FavoritesFragment extends BaseFragment implements
         FavoritesMvpView, FavoritesListAdapter.Callback {
@@ -71,7 +54,6 @@ public class FavoritesFragment extends BaseFragment implements
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news, container, false);
-
         ActivityComponent component = getActivityComponent();
         if (component != null) {
             component.inject(this);
@@ -81,7 +63,15 @@ public class FavoritesFragment extends BaseFragment implements
         }
         return view;
     }
-
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser)
+    {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser)
+        {
+            mPresenter.onViewPrepared();
+        }
+    }
     @Override
     protected void setUp(View view) {
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -93,10 +83,9 @@ public class FavoritesFragment extends BaseFragment implements
 
     }
 
-
-
     @Override
     public void getDataFromDatabase(List<Articles> articlesList) {
+        mFavoritesAdapter.clearItems();
         if(articlesList.size() != 0) {
             mFavoritesAdapter.addItems(articlesList);
         }
