@@ -148,19 +148,13 @@ public class NewsListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 dateTxt.setText(CommonUtils.getDate(articlesList.getPublishedAt()));
             }
             for (int i = 0; i< favoritesArticlesList.size(); i++) {
-                if (favoritesArticlesList.get(i).getDescription().equals(articlesList.getDescription())) {
+                if (favoritesArticlesList.get(i).getUrl().equals(articlesList.getUrl())) {
                     articlesList.setChecked(true);
                 }
-                else{
-                    articlesList.setChecked(false);
-                }
             }
+            newsCheckbox.setChecked(articlesList.isChecked());
 
-            if(articlesList.isChecked())
-            {
-                newsCheckbox.setChecked(true);
 
-            }
             if (checkboxOnItemSelectedListener != null ) {
                 newsCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
