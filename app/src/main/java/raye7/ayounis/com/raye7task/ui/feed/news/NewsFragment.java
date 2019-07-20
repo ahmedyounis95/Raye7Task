@@ -22,6 +22,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import raye7.ayounis.com.raye7task.R;
 import raye7.ayounis.com.raye7task.data.model.Articles;
+import raye7.ayounis.com.raye7task.data.model.Favorites;
 import raye7.ayounis.com.raye7task.di.component.ActivityComponent;
 import raye7.ayounis.com.raye7task.ui.base.BaseFragment;
 
@@ -86,13 +87,20 @@ public class NewsFragment extends BaseFragment implements
                 if(checked){
                     if(!selectedItemsArticles.contains(articles)) {
                         selectedItemsArticles.add(articles);
-                        mPresenter.insertDatabase(selectedItemsArticles);
+
+                        Favorites favorites = new Favorites();
+                        favorites.setArticleId(articles.getId());
+
+                        Log.e("articleId", String.valueOf(articles.getId()));
+                        mPresenter.update(checked,articles.getId());
+                        mPresenter.insertDatabase(favorites);
                         Log.e("data inserted", "success");
-//                        mPresenter.getDatabase();
                     }
                 }else if(selectedItemsArticles.contains(articles)){
                     selectedItemsArticles.remove(articles) ;
-                    mPresenter.removeFromDatabase(articles);
+
+                    mPresenter.removeFromDatabase(String.valueOf(articles.getId()));
+                    mPresenter.update(checked,articles.getId());
                     Log.e("data removed", "success");
 
                 }
@@ -126,8 +134,8 @@ public class NewsFragment extends BaseFragment implements
 
 
     @Override
-    public void updateBlog(List<Articles> blogList) {
-        mNewsAdapter.addItems(blogList);
+    public void updateArticles(List<Articles> articlesList) {
+        mNewsAdapter.addItems(articlesList);
     }
 
     @Override

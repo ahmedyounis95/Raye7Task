@@ -28,7 +28,7 @@ buildscript {
         glideVersion = '3.7.0'
         archVersion = '1.1.1'
         rx2FastAndroidNetworking = '1.0.1'
-        dagger2Version = '2.8'
+        dagger2Version = '2.20'
         rxjava2Version = '2.2.2'
         rxandroidVersion = '2.0.2'
         butterKnifeVersion = '8.8.1'

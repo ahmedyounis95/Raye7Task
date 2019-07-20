@@ -8,6 +8,7 @@ import raye7.ayounis.com.raye7task.di.module.ApplicationModule;
 import raye7.ayounis.com.raye7task.di.module.NetModule;
 import raye7.ayounis.com.raye7task.utils.AppConstants;
 import raye7.ayounis.com.raye7task.utils.AppLogger;
+import retrofit2.Retrofit;
 
 /**
  * Created by Ahmed Younis on 11/26/2018.

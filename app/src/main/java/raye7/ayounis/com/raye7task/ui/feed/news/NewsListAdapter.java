@@ -20,6 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import raye7.ayounis.com.raye7task.R;
 import raye7.ayounis.com.raye7task.data.model.Articles;
+import raye7.ayounis.com.raye7task.data.model.Favorites;
 import raye7.ayounis.com.raye7task.ui.base.BaseViewHolder;
 import raye7.ayounis.com.raye7task.utils.CommonUtils;
 
@@ -43,12 +44,13 @@ public class NewsListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     public void setClickListener(Callback itemClickListener) {
-        this.mOnItemClickListener= itemClickListener;
+        this.mOnItemClickListener = itemClickListener;
     }
-    public void setCheckboxOnItemSelectedListener(CheckboxOnItemSelectedListener checkboxOnItemSelectedListener)
-    {
+
+    public void setCheckboxOnItemSelectedListener(CheckboxOnItemSelectedListener checkboxOnItemSelectedListener) {
         this.checkboxOnItemSelectedListener = checkboxOnItemSelectedListener;
     }
+
     @NonNull
     @Override
     public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -67,17 +69,17 @@ public class NewsListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         holder.onBind(position);
 
 
-
     }
 
     @Override
     public int getItemCount() {
-        if(mArticlesResponseList != null && mArticlesResponseList.size() > 0){
+        if (mArticlesResponseList != null && mArticlesResponseList.size() > 0) {
             return mArticlesResponseList.size();
-        }else{
+        } else {
             return 1;
         }
     }
+
     // convenience method for getting data at click position
     public Articles getItem(int id) {
         return mArticlesResponseList.get(id);
@@ -85,28 +87,35 @@ public class NewsListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        if(mArticlesResponseList != null && mArticlesResponseList.size() > 0)
-        {
+        if (mArticlesResponseList != null && mArticlesResponseList.size() > 0) {
             return VIEW_TYPE_NORMAL;
-        }else{
+        } else {
             return VIEW_TYPE_EMPTY;
         }
     }
 
-    public void addItems(List<Articles> articlesList)
-    {
+    public void addItems(List<Articles> articlesList) {
+        mArticlesResponseList.clear();
+//        for (int i = 0; i < favoritesArticlesList.size(); i++) {
+//            favoritesArticlesList.get(i).getId();
+//            articlesList.get(i).setChecked(true);
+//        }
         mArticlesResponseList.addAll(articlesList);
+
         notifyDataSetChanged();
     }
-    void getFavorites(List<Articles> articlesList){
+
+    void getFavorites(List<Articles> articlesList) {
         favoritesArticlesList = articlesList;
         Log.e("size", String.valueOf(favoritesArticlesList.size()));
     }
+
     public interface Callback {
         void onArticleListClick(int position);
     }
 
-    public class ViewHolder extends BaseViewHolder{
+    public class ViewHolder extends BaseViewHolder {
+
 
         @BindView(R.id.article_text)
         TextView newsTitleTxt;
@@ -121,7 +130,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
         public ViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
 
         @Override
@@ -129,8 +138,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             super.onBind(position);
 
             final Articles articlesList = mArticlesResponseList.get(position);
-            if(articlesList.getUrlToImage()!= null)
-            {
+            if (articlesList.getUrlToImage() != null) {
                 Glide.with(itemView.getContext())
                         .load(articlesList.getUrlToImage())
                         .asBitmap()
@@ -139,27 +147,33 @@ public class NewsListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                         .into(newsImg);
             }
 
-            if(articlesList.getDescription() != null)
-            {
+            if (articlesList.getDescription() != null) {
                 newsTitleTxt.setText(articlesList.getDescription());
             }
-            if(articlesList.getPublishedAt() != null)
-            {
+            if (articlesList.getPublishedAt() != null) {
                 dateTxt.setText(CommonUtils.getDate(articlesList.getPublishedAt()));
             }
-            for (int i = 0; i< favoritesArticlesList.size(); i++) {
-                if (favoritesArticlesList.get(i).getUrl().equals(articlesList.getUrl())) {
-                    articlesList.setChecked(true);
-                }
+            if(articlesList.isChecked()) {
+                newsCheckbox.setChecked(true);
+            }else if(!articlesList.isChecked()){
+                newsCheckbox.setChecked(false);
             }
-            newsCheckbox.setChecked(articlesList.isChecked());
 
 
-            if (checkboxOnItemSelectedListener != null ) {
-                newsCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            if (checkboxOnItemSelectedListener != null) {
+                newsCheckbox.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                        checkboxOnItemSelectedListener.onItemSelected(mArticlesResponseList.get(position),b);
+                    public void onClick(View view) {
+                        if(newsCheckbox.isChecked()) {
+                            articlesList.setChecked(true);
+                            newsCheckbox.setChecked(true);
+                            checkboxOnItemSelectedListener.onItemSelected(mArticlesResponseList.get(position),true);
+                        }else if(!newsCheckbox.isChecked()){
+                            articlesList.setChecked(false);
+                            newsCheckbox.setChecked(false);
+                            checkboxOnItemSelectedListener.onItemSelected(mArticlesResponseList.get(position),false);
+
+                        }
                     }
                 });
             }
@@ -167,8 +181,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(mOnItemClickListener != null)
-                    {
+                    if (mOnItemClickListener != null) {
                         mOnItemClickListener.onArticleListClick(getAdapterPosition());
                     }
                 }

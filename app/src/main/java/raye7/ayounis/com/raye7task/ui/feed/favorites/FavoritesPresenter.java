@@ -19,7 +19,7 @@ public class FavoritesPresenter<V extends FavoritesMvpView> extends BasePresente
     @Override
     public void onViewPrepared() {
         getMvpView().showLoading();
-        getMvpView().getDataFromDatabase(getDataManager().getAllArticles());
+        getMvpView().getDataFromDatabase(getDataManager().getAllFavorites());
         getMvpView().hideLoading();
     }
 

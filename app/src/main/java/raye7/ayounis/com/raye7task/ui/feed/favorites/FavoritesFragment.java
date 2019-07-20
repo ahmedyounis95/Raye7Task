@@ -3,7 +3,6 @@ package raye7.ayounis.com.raye7task.ui.feed.favorites;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,6 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import raye7.ayounis.com.raye7task.R;
 import raye7.ayounis.com.raye7task.data.model.Articles;
+import raye7.ayounis.com.raye7task.data.model.Favorites;
 import raye7.ayounis.com.raye7task.di.component.ActivityComponent;
 import raye7.ayounis.com.raye7task.ui.base.BaseFragment;
 

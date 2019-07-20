@@ -2,7 +2,9 @@ package raye7.ayounis.com.raye7task.data.remote;
 
 import raye7.ayounis.com.raye7task.data.model.HomeData;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public interface ApiHelper {

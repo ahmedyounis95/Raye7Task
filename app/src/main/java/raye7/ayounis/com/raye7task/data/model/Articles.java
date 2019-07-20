@@ -4,6 +4,7 @@ package raye7.ayounis.com.raye7task.data.model;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
@@ -11,12 +12,14 @@ import com.google.gson.annotations.SerializedName;
 
 import raye7.ayounis.com.raye7task.utils.AppConstants;
 
-@Entity(tableName = AppConstants.ARTICLES_TABLE_NAME)
+@Entity(tableName = AppConstants.ARTICLES_TABLE_NAME,indices = @Index(value = {"url"}, unique = true))
+
 
 public class Articles {
     @PrimaryKey(autoGenerate =  true)
     @NonNull
-    int id;
+    @ColumnInfo(name = "id")
+    private int id;
     @SerializedName("source")
     @Ignore
     private Source source;

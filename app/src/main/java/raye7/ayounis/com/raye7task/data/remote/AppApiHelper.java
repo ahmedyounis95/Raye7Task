@@ -5,6 +5,7 @@ import android.content.Context;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import okhttp3.RequestBody;
 import raye7.ayounis.com.raye7task.Raye7App;
 import raye7.ayounis.com.raye7task.data.model.HomeData;
 import raye7.ayounis.com.raye7task.di.ApplicationContext;
@@ -28,4 +29,5 @@ public class AppApiHelper implements ApiHelper {
         Retrofit retrofit = ((Raye7App)mContext).getComponent().getRetrofit();
         return retrofit.create(ApiHelper.class).getHomeData(apiKey,query,groupBy,page,source,language);
     }
+
 }
