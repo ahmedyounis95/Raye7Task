@@ -9,8 +9,6 @@ import raye7.ayounis.com.raye7task.ui.base.BasePresenter;
 public class FavoritesPresenter<V extends FavoritesMvpView> extends BasePresenter<V>
         implements FavoritesMvpPresenter<V> {
 
-    private int page = 1;
-
     @Inject
     public FavoritesPresenter(DataManager dataManager) {
         super(dataManager);

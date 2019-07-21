@@ -16,7 +16,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import raye7.ayounis.com.raye7task.R;
 import raye7.ayounis.com.raye7task.data.model.Articles;
-import raye7.ayounis.com.raye7task.data.model.Favorites;
 import raye7.ayounis.com.raye7task.ui.base.BaseViewHolder;
 import raye7.ayounis.com.raye7task.utils.CommonUtils;
 

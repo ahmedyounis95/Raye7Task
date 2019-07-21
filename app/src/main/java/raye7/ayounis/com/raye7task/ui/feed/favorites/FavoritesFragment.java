@@ -20,7 +20,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import raye7.ayounis.com.raye7task.R;
 import raye7.ayounis.com.raye7task.data.model.Articles;
-import raye7.ayounis.com.raye7task.data.model.Favorites;
 import raye7.ayounis.com.raye7task.di.component.ActivityComponent;
 import raye7.ayounis.com.raye7task.ui.base.BaseFragment;
 

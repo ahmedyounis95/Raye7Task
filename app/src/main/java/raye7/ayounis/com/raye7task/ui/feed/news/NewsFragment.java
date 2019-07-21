@@ -22,7 +22,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import raye7.ayounis.com.raye7task.R;
 import raye7.ayounis.com.raye7task.data.model.Articles;
-import raye7.ayounis.com.raye7task.data.model.Favorites;
 import raye7.ayounis.com.raye7task.di.component.ActivityComponent;
 import raye7.ayounis.com.raye7task.ui.base.BaseFragment;
 
@@ -47,7 +46,6 @@ public class NewsFragment extends BaseFragment implements
     @BindView(R.id.news_recycler_view)
     RecyclerView mRecyclerView;
 
-    private List<Articles> selectedItemsArticles = new ArrayList<>();
     private CheckboxOnItemSelectedListener checkboxOnItemSelectedListener;
 
     public static NewsFragment newInstance() {
@@ -85,26 +83,18 @@ public class NewsFragment extends BaseFragment implements
             @Override
             public void onItemSelected(Articles articles, boolean checked) {
                 if(checked){
-                    if(!selectedItemsArticles.contains(articles)) {
-                        selectedItemsArticles.add(articles);
-
-                        Favorites favorites = new Favorites();
-                        favorites.setArticleId(articles.getId());
-
-                        Log.e("articleId", String.valueOf(articles.getId()));
                         mPresenter.update(checked,articles.getId());
-                        mPresenter.insertDatabase(favorites);
                         Log.e("data inserted", "success");
-                    }
-                }else if(selectedItemsArticles.contains(articles)){
-                    selectedItemsArticles.remove(articles) ;
+                    }else {
 
-                    mPresenter.removeFromDatabase(String.valueOf(articles.getId()));
                     mPresenter.update(checked,articles.getId());
                     Log.e("data removed", "success");
 
                 }
             }
+
+
+
         };
         mNewsAdapter.setCheckboxOnItemSelectedListener(checkboxOnItemSelectedListener);
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -127,7 +117,6 @@ public class NewsFragment extends BaseFragment implements
                 }
             }
         });
-        mPresenter.getDatabase();
 
     }
 
@@ -143,13 +132,6 @@ public class NewsFragment extends BaseFragment implements
         loading = changeLoading;
     }
 
-    @Override
-    public void getDataFromDatabase(List<Articles> articlesList) {
-        Log.e("article", String.valueOf(articlesList.size()));
-        if(articlesList.size() != 0) {
-            mNewsAdapter.getFavorites(articlesList);
-        }
-    }
 
     @Override
     public void onDestroyView() {

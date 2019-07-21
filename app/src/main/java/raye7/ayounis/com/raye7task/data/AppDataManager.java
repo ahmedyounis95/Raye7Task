@@ -10,7 +10,6 @@ import javax.inject.Singleton;
 import raye7.ayounis.com.raye7task.data.local.db.AppDbHelper;
 import raye7.ayounis.com.raye7task.data.model.Articles;
 import raye7.ayounis.com.raye7task.data.model.HomeData;
-import raye7.ayounis.com.raye7task.data.model.Favorites;
 import raye7.ayounis.com.raye7task.data.remote.ApiHelper;
 import raye7.ayounis.com.raye7task.di.ApplicationContext;
 import retrofit2.Call;
@@ -52,23 +51,10 @@ public class AppDataManager implements DataManager {
         mAppDbHelper.insertNews(articlesList);
     }
 
-    @Override
-    public void insert(Favorites articlesList) {
-        mAppDbHelper.insert(articlesList);
-    }
 
     @Override
     public void update(boolean articles,int id) {
         mAppDbHelper.update(articles,id);
     }
 
-    @Override
-    public void removeNews() {
-        mAppDbHelper.removeNews();
-    }
-
-    @Override
-    public void remove(String articles) {
-        mAppDbHelper.remove(articles);
-    }
 }

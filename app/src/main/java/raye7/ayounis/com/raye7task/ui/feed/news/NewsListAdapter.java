@@ -2,25 +2,21 @@ package raye7.ayounis.com.raye7task.ui.feed.news;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import raye7.ayounis.com.raye7task.R;
 import raye7.ayounis.com.raye7task.data.model.Articles;
-import raye7.ayounis.com.raye7task.data.model.Favorites;
 import raye7.ayounis.com.raye7task.ui.base.BaseViewHolder;
 import raye7.ayounis.com.raye7task.utils.CommonUtils;
 
@@ -37,7 +33,6 @@ public class NewsListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
 
     private List<Articles> mArticlesResponseList;
-    private List<Articles> favoritesArticlesList = new ArrayList<>();
 
     public NewsListAdapter(List<Articles> mArticlesResponseList) {
         this.mArticlesResponseList = mArticlesResponseList;
@@ -96,25 +91,18 @@ public class NewsListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     public void addItems(List<Articles> articlesList) {
         mArticlesResponseList.clear();
-//        for (int i = 0; i < favoritesArticlesList.size(); i++) {
-//            favoritesArticlesList.get(i).getId();
-//            articlesList.get(i).setChecked(true);
-//        }
         mArticlesResponseList.addAll(articlesList);
 
         notifyDataSetChanged();
     }
 
-    void getFavorites(List<Articles> articlesList) {
-        favoritesArticlesList = articlesList;
-        Log.e("size", String.valueOf(favoritesArticlesList.size()));
-    }
+
 
     public interface Callback {
         void onArticleListClick(int position);
     }
 
-    public class ViewHolder extends BaseViewHolder {
+    public class ViewHolder extends BaseViewHolder{
 
 
         @BindView(R.id.article_text)
@@ -153,30 +141,32 @@ public class NewsListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             if (articlesList.getPublishedAt() != null) {
                 dateTxt.setText(CommonUtils.getDate(articlesList.getPublishedAt()));
             }
-            if(articlesList.isChecked()) {
+            if (articlesList.isChecked()) {
                 newsCheckbox.setChecked(true);
-            }else if(!articlesList.isChecked()){
+            } else if (!articlesList.isChecked()) {
                 newsCheckbox.setChecked(false);
             }
 
 
-            if (checkboxOnItemSelectedListener != null) {
-                newsCheckbox.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if(newsCheckbox.isChecked()) {
-                            articlesList.setChecked(true);
-                            newsCheckbox.setChecked(true);
-                            checkboxOnItemSelectedListener.onItemSelected(mArticlesResponseList.get(position),true);
-                        }else if(!newsCheckbox.isChecked()){
-                            articlesList.setChecked(false);
-                            newsCheckbox.setChecked(false);
-                            checkboxOnItemSelectedListener.onItemSelected(mArticlesResponseList.get(position),false);
-
+            newsCheckbox.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (newsCheckbox.isChecked()) {
+                        articlesList.setChecked(true);
+                        newsCheckbox.setChecked(true);
+                        if (checkboxOnItemSelectedListener != null) {
+                            checkboxOnItemSelectedListener.onItemSelected(mArticlesResponseList.get(position), true);
+                        }
+                    } else if (!newsCheckbox.isChecked()) {
+                        articlesList.setChecked(false);
+                        newsCheckbox.setChecked(false);
+                        if (checkboxOnItemSelectedListener != null) {
+                            checkboxOnItemSelectedListener.onItemSelected(mArticlesResponseList.get(position), false);
                         }
                     }
-                });
-            }
+                }
+            });
+
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -193,6 +183,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             newsImg.setImageDrawable(null);
             newsTitleTxt.setText("");
         }
+
 
     }
 

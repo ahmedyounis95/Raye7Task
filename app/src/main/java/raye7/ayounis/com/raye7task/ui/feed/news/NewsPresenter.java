@@ -4,9 +4,7 @@ package raye7.ayounis.com.raye7task.ui.feed.news;
 import javax.inject.Inject;
 
 import raye7.ayounis.com.raye7task.data.DataManager;
-import raye7.ayounis.com.raye7task.data.model.Articles;
 import raye7.ayounis.com.raye7task.data.model.HomeData;
-import raye7.ayounis.com.raye7task.data.model.Favorites;
 import raye7.ayounis.com.raye7task.ui.base.BasePresenter;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -49,26 +47,13 @@ public class NewsPresenter<V extends NewsMvpView> extends BasePresenter<V>
         });
     }
 
-    @Override
-    public void insertDatabase(Favorites articles) {
-        getDataManager().insert(articles);
-    }
 
     @Override
     public void update(boolean articles, int id) {
         getDataManager().update(articles,id);
     }
 
-    @Override
-    public void removeFromDatabase(String  articles) {
-        getDataManager().remove(articles);
-    }
 
-    @Override
-    public void getDatabase() {
-        if (getDataManager().getAllFavorites().size() != 0) {
-            getMvpView().getDataFromDatabase(getDataManager().getAllFavorites());
-        }
-    }
+
 
 }
