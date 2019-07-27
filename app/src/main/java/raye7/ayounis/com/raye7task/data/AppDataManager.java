@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import raye7.ayounis.com.raye7task.data.local.db.AppDbHelper;
+import raye7.ayounis.com.raye7task.data.local.prefs.PreferencesHelper;
 import raye7.ayounis.com.raye7task.data.model.Articles;
 import raye7.ayounis.com.raye7task.data.model.HomeData;
 import raye7.ayounis.com.raye7task.data.remote.ApiHelper;
@@ -21,12 +22,14 @@ public class AppDataManager implements DataManager {
     private final Context mContext;
     private final ApiHelper mApiHelper;
     private final AppDbHelper mAppDbHelper;
+    private final PreferencesHelper mPreferencesHelper;
 
     @Inject
-    public AppDataManager(@ApplicationContext Context context, ApiHelper apiHelper, AppDbHelper appDbHelper) {
+    public AppDataManager(@ApplicationContext Context context, ApiHelper apiHelper, AppDbHelper appDbHelper, PreferencesHelper mPreferencesHelper) {
         mContext = context;
         mApiHelper = apiHelper;
         mAppDbHelper = appDbHelper;
+        this.mPreferencesHelper = mPreferencesHelper;
     }
 
 
@@ -57,4 +60,13 @@ public class AppDataManager implements DataManager {
         mAppDbHelper.update(articles,id);
     }
 
+    @Override
+    public long getPageNumber() {
+        return mPreferencesHelper.getPageNumber();
+    }
+
+    @Override
+    public void setPageNumber(long pageNumber) {
+        mPreferencesHelper.setPageNumber(pageNumber);
+    }
 }

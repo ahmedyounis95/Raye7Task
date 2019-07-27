@@ -11,11 +11,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-
 public class NewsPresenter<V extends NewsMvpView> extends BasePresenter<V>
         implements NewsMvpPresenter<V> {
 
-    private int page = 1;
+    private long pageNumber;
 
     @Inject
     public NewsPresenter(DataManager dataManager) {
@@ -24,16 +23,21 @@ public class NewsPresenter<V extends NewsMvpView> extends BasePresenter<V>
 
     @Override
     public void onViewPrepared() {
+        pageNumber = getDataManager().getPageNumber();
+        if ( pageNumber == 0 ) {
+            getDataManager().setPageNumber(1);
+        }
+
         getMvpView().showLoading();
-        getDataManager().getHomeData("dcf37b3045e542df970986c1114eb3ea", "news", "day", page, "USA Today", "en").enqueue(new Callback<HomeData>() {
+        getDataManager().getHomeData("dcf37b3045e542df970986c1114eb3ea", "news", "day", (int) pageNumber, "USA Today", "en").enqueue(new Callback<HomeData>() {
             @Override
             public void onResponse(Call<HomeData> call, Response<HomeData> response) {
-//                getDataManager().removeNews();
-                if(response.body().getArticles() != null ){
+                if (response.body().getArticles() != null) {
                     getDataManager().insertNews(response.body().getArticles());
                     getMvpView().updateArticles(getDataManager().getAllNews());
                     getMvpView().hideLoading();
-                    page++;
+                    pageNumber++;
+                    getDataManager().setPageNumber(pageNumber);
                     getMvpView().changeLoading(true);
                 }
 
@@ -41,8 +45,8 @@ public class NewsPresenter<V extends NewsMvpView> extends BasePresenter<V>
 
             @Override
             public void onFailure(Call<HomeData> call, Throwable t) {
-//                getMvpView().updateArticles(getDataManager().getAllNews());
-//                getMvpView().hideLoading();
+                getMvpView().updateArticles(getDataManager().getAllNews());
+                getMvpView().hideLoading();
             }
         });
     }
@@ -50,10 +54,8 @@ public class NewsPresenter<V extends NewsMvpView> extends BasePresenter<V>
 
     @Override
     public void update(boolean articles, int id) {
-        getDataManager().update(articles,id);
+        getDataManager().update(articles, id);
     }
-
-
 
 
 }

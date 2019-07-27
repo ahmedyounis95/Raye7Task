@@ -12,9 +12,12 @@ import raye7.ayounis.com.raye7task.data.AppDataManager;
 import raye7.ayounis.com.raye7task.data.DataManager;
 import raye7.ayounis.com.raye7task.data.local.db.AppDataBase;
 import raye7.ayounis.com.raye7task.data.local.db.Dao.ArticleListDao;
+import raye7.ayounis.com.raye7task.data.local.prefs.AppPreferencesHelper;
+import raye7.ayounis.com.raye7task.data.local.prefs.PreferencesHelper;
 import raye7.ayounis.com.raye7task.data.remote.ApiHelper;
 import raye7.ayounis.com.raye7task.data.remote.AppApiHelper;
 import raye7.ayounis.com.raye7task.di.ApplicationContext;
+import raye7.ayounis.com.raye7task.di.PreferenceInfo;
 import raye7.ayounis.com.raye7task.utils.AppConstants;
 
 /**
@@ -39,6 +42,12 @@ public class ApplicationModule {
         return mApplication;
     }
 
+    @Provides
+    @PreferenceInfo
+    String providePreferenceName() {
+        return AppConstants.PREF_NAME;
+    }
+
 
     @Provides
     @Singleton
@@ -52,6 +61,11 @@ public class ApplicationModule {
         return Room.databaseBuilder(context, AppDataBase.class, AppConstants.DB_NAME).allowMainThreadQueries().build();
     }
 
+    @Provides
+    @Singleton
+    PreferencesHelper providePreferencesHelper(AppPreferencesHelper appPreferencesHelper) {
+        return appPreferencesHelper;
+    }
     @Provides
     @Singleton
     ArticleListDao provideDbHelper(AppDataBase appDataBase) {
